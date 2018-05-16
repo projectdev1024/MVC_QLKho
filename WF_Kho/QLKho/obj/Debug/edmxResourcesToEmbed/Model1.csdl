@@ -1,0 +1,224 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="dbQLKhoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="dbQLKhoEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="CT_NhapXuatKho" EntityType="dbQLKhoModel.CT_NhapXuatKho" />
+    <EntitySet Name="HangHoas" EntityType="dbQLKhoModel.HangHoa" />
+    <EntitySet Name="LoHangs" EntityType="dbQLKhoModel.LoHang" />
+    <EntitySet Name="NhaCungCaps" EntityType="dbQLKhoModel.NhaCungCap" />
+    <EntitySet Name="NhaKhoes" EntityType="dbQLKhoModel.NhaKho" />
+    <EntitySet Name="NhanViens" EntityType="dbQLKhoModel.NhanVien" />
+    <EntitySet Name="NhapXuatKhoes" EntityType="dbQLKhoModel.NhapXuatKho" />
+    <EntitySet Name="NhomHangHoas" EntityType="dbQLKhoModel.NhomHangHoa" />
+    <AssociationSet Name="FK_CT_NhapXuatKho_LoHang" Association="dbQLKhoModel.FK_CT_NhapXuatKho_LoHang">
+      <End Role="LoHang" EntitySet="LoHangs" />
+      <End Role="CT_NhapXuatKho" EntitySet="CT_NhapXuatKho" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CT_NhapXuatKho_NhapXuatKho" Association="dbQLKhoModel.FK_CT_NhapXuatKho_NhapXuatKho">
+      <End Role="NhapXuatKho" EntitySet="NhapXuatKhoes" />
+      <End Role="CT_NhapXuatKho" EntitySet="CT_NhapXuatKho" />
+    </AssociationSet>
+    <AssociationSet Name="FK_HangHoa_NhomHangHoa" Association="dbQLKhoModel.FK_HangHoa_NhomHangHoa">
+      <End Role="NhomHangHoa" EntitySet="NhomHangHoas" />
+      <End Role="HangHoa" EntitySet="HangHoas" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LoHang_HangHoa" Association="dbQLKhoModel.FK_LoHang_HangHoa">
+      <End Role="HangHoa" EntitySet="HangHoas" />
+      <End Role="LoHang" EntitySet="LoHangs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LoHang_NhaCungCap" Association="dbQLKhoModel.FK_LoHang_NhaCungCap">
+      <End Role="NhaCungCap" EntitySet="NhaCungCaps" />
+      <End Role="LoHang" EntitySet="LoHangs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LoHang_NhaKho" Association="dbQLKhoModel.FK_LoHang_NhaKho">
+      <End Role="NhaKho" EntitySet="NhaKhoes" />
+      <End Role="LoHang" EntitySet="LoHangs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_NhapXuatKho_NhanVien" Association="dbQLKhoModel.FK_NhapXuatKho_NhanVien">
+      <End Role="NhanVien" EntitySet="NhanViens" />
+      <End Role="NhapXuatKho" EntitySet="NhapXuatKhoes" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="CT_NhapXuatKho">
+    <Key>
+      <PropertyRef Name="ID_CTNX" />
+    </Key>
+    <Property Name="ID_CTNX" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ID_Phieu" Type="Int32" />
+    <Property Name="MaLoHang" Type="Int32" />
+    <Property Name="SoLuong" Type="Int32" />
+    <Property Name="Note" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="LoHang" Relationship="dbQLKhoModel.FK_CT_NhapXuatKho_LoHang" FromRole="CT_NhapXuatKho" ToRole="LoHang" />
+    <NavigationProperty Name="NhapXuatKho" Relationship="dbQLKhoModel.FK_CT_NhapXuatKho_NhapXuatKho" FromRole="CT_NhapXuatKho" ToRole="NhapXuatKho" />
+  </EntityType>
+  <EntityType Name="HangHoa">
+    <Key>
+      <PropertyRef Name="MaHH" />
+    </Key>
+    <Property Name="MaHH" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenHH" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="MoTa" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="ID_NHH" Type="Int32" />
+    <NavigationProperty Name="NhomHangHoa" Relationship="dbQLKhoModel.FK_HangHoa_NhomHangHoa" FromRole="HangHoa" ToRole="NhomHangHoa" />
+    <NavigationProperty Name="LoHangs" Relationship="dbQLKhoModel.FK_LoHang_HangHoa" FromRole="HangHoa" ToRole="LoHang" />
+    <Property Name="IsDelete" Type="Boolean" />
+    <Property Name="SoLuongTon" Type="Int32" />
+  </EntityType>
+  <EntityType Name="LoHang">
+    <Key>
+      <PropertyRef Name="MaLoHang" />
+    </Key>
+    <Property Name="MaLoHang" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="MaHH" Type="Int32" />
+    <Property Name="NSX" Type="DateTime" Precision="3" />
+    <Property Name="HSD" Type="DateTime" Precision="3" />
+    <Property Name="SoLuong" Type="Int32" />
+    <Property Name="Status" Type="Int32" />
+    <Property Name="ID_Kho" Type="Int32" />
+    <Property Name="ID_Phieu" Type="Int32" />
+    <Property Name="MaNCC" Type="Int32" />
+    <NavigationProperty Name="CT_NhapXuatKho" Relationship="dbQLKhoModel.FK_CT_NhapXuatKho_LoHang" FromRole="LoHang" ToRole="CT_NhapXuatKho" />
+    <NavigationProperty Name="HangHoa" Relationship="dbQLKhoModel.FK_LoHang_HangHoa" FromRole="LoHang" ToRole="HangHoa" />
+    <NavigationProperty Name="NhaCungCap" Relationship="dbQLKhoModel.FK_LoHang_NhaCungCap" FromRole="LoHang" ToRole="NhaCungCap" />
+    <NavigationProperty Name="NhaKho" Relationship="dbQLKhoModel.FK_LoHang_NhaKho" FromRole="LoHang" ToRole="NhaKho" />
+  </EntityType>
+  <EntityType Name="NhaCungCap">
+    <Key>
+      <PropertyRef Name="MaNCC" />
+    </Key>
+    <Property Name="MaNCC" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenNCC" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="DiaChi" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="SDT" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Web" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="IsDelete" Type="Boolean" />
+    <NavigationProperty Name="LoHangs" Relationship="dbQLKhoModel.FK_LoHang_NhaCungCap" FromRole="NhaCungCap" ToRole="LoHang" />
+  </EntityType>
+  <EntityType Name="NhaKho">
+    <Key>
+      <PropertyRef Name="ID_Kho" />
+    </Key>
+    <Property Name="ID_Kho" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DiaChi" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Status" Type="Int32" />
+    <Property Name="Note" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="LoHangs" Relationship="dbQLKhoModel.FK_LoHang_NhaKho" FromRole="NhaKho" ToRole="LoHang" />
+  </EntityType>
+  <EntityType Name="NhanVien">
+    <Key>
+      <PropertyRef Name="MaNV" />
+    </Key>
+    <Property Name="MaNV" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="TenNV" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="PB" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CV" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="MT" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="MatKhau" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="IsDelete" Type="Boolean" />
+    <NavigationProperty Name="NhapXuatKhoes" Relationship="dbQLKhoModel.FK_NhapXuatKho_NhanVien" FromRole="NhanVien" ToRole="NhapXuatKho" />
+  </EntityType>
+  <EntityType Name="NhapXuatKho">
+    <Key>
+      <PropertyRef Name="ID_Phieu" />
+    </Key>
+    <Property Name="ID_Phieu" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="MaNV" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ThoiGian" Type="DateTime" Precision="3" />
+    <Property Name="Status" Type="Int32" />
+    <Property Name="Note" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="CT_NhapXuatKho" Relationship="dbQLKhoModel.FK_CT_NhapXuatKho_NhapXuatKho" FromRole="NhapXuatKho" ToRole="CT_NhapXuatKho" />
+    <NavigationProperty Name="NhanVien" Relationship="dbQLKhoModel.FK_NhapXuatKho_NhanVien" FromRole="NhapXuatKho" ToRole="NhanVien" />
+  </EntityType>
+  <EntityType Name="NhomHangHoa">
+    <Key>
+      <PropertyRef Name="ID_NHH" />
+    </Key>
+    <Property Name="ID_NHH" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenNHH" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="IsDelete" Type="Boolean" />
+    <NavigationProperty Name="HangHoas" Relationship="dbQLKhoModel.FK_HangHoa_NhomHangHoa" FromRole="NhomHangHoa" ToRole="HangHoa" />
+  </EntityType>
+  <Association Name="FK_CT_NhapXuatKho_LoHang">
+    <End Type="dbQLKhoModel.LoHang" Role="LoHang" Multiplicity="0..1" />
+    <End Type="dbQLKhoModel.CT_NhapXuatKho" Role="CT_NhapXuatKho" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="LoHang">
+        <PropertyRef Name="MaLoHang" />
+      </Principal>
+      <Dependent Role="CT_NhapXuatKho">
+        <PropertyRef Name="MaLoHang" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CT_NhapXuatKho_NhapXuatKho">
+    <End Type="dbQLKhoModel.NhapXuatKho" Role="NhapXuatKho" Multiplicity="0..1" />
+    <End Type="dbQLKhoModel.CT_NhapXuatKho" Role="CT_NhapXuatKho" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="NhapXuatKho">
+        <PropertyRef Name="ID_Phieu" />
+      </Principal>
+      <Dependent Role="CT_NhapXuatKho">
+        <PropertyRef Name="ID_Phieu" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_HangHoa_NhomHangHoa">
+    <End Type="dbQLKhoModel.NhomHangHoa" Role="NhomHangHoa" Multiplicity="0..1" />
+    <End Type="dbQLKhoModel.HangHoa" Role="HangHoa" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="NhomHangHoa">
+        <PropertyRef Name="ID_NHH" />
+      </Principal>
+      <Dependent Role="HangHoa">
+        <PropertyRef Name="ID_NHH" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LoHang_HangHoa">
+    <End Type="dbQLKhoModel.HangHoa" Role="HangHoa" Multiplicity="0..1" />
+    <End Type="dbQLKhoModel.LoHang" Role="LoHang" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="HangHoa">
+        <PropertyRef Name="MaHH" />
+      </Principal>
+      <Dependent Role="LoHang">
+        <PropertyRef Name="MaHH" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LoHang_NhaCungCap">
+    <End Type="dbQLKhoModel.NhaCungCap" Role="NhaCungCap" Multiplicity="0..1" />
+    <End Type="dbQLKhoModel.LoHang" Role="LoHang" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="NhaCungCap">
+        <PropertyRef Name="MaNCC" />
+      </Principal>
+      <Dependent Role="LoHang">
+        <PropertyRef Name="MaNCC" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LoHang_NhaKho">
+    <End Type="dbQLKhoModel.NhaKho" Role="NhaKho" Multiplicity="0..1" />
+    <End Type="dbQLKhoModel.LoHang" Role="LoHang" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="NhaKho">
+        <PropertyRef Name="ID_Kho" />
+      </Principal>
+      <Dependent Role="LoHang">
+        <PropertyRef Name="ID_Kho" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_NhapXuatKho_NhanVien">
+    <End Type="dbQLKhoModel.NhanVien" Role="NhanVien" Multiplicity="0..1" />
+    <End Type="dbQLKhoModel.NhapXuatKho" Role="NhapXuatKho" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="NhanVien">
+        <PropertyRef Name="MaNV" />
+      </Principal>
+      <Dependent Role="NhapXuatKho">
+        <PropertyRef Name="MaNV" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

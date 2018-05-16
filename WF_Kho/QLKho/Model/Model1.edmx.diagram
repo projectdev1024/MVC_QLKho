@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="ff5b923e3f7045df9a34a14d3c2b374f" Name="Diagram1">
+        <EntityTypeShape EntityType="dbQLKhoModel.CT_XuatKho" Width="1.5" PointX="7.5" PointY="3.125" />
+        <EntityTypeShape EntityType="dbQLKhoModel.HangHoa" Width="1.5" PointX="3" PointY="11.5" />
+        <EntityTypeShape EntityType="dbQLKhoModel.LoHang" Width="1.5" PointX="5.25" PointY="1.125" />
+        <EntityTypeShape EntityType="dbQLKhoModel.NhaCungCap" Width="1.5" PointX="3" PointY="8.5" />
+        <EntityTypeShape EntityType="dbQLKhoModel.NhaKho" Width="1.5" PointX="3" PointY="14.875" />
+        <EntityTypeShape EntityType="dbQLKhoModel.NhanVien" Width="1.5" PointX="0.75" PointY="3.375" />
+        <EntityTypeShape EntityType="dbQLKhoModel.NhomHangHoa" Width="1.5" PointX="0.75" PointY="12" />
+        <EntityTypeShape EntityType="dbQLKhoModel.PhieuNhap" Width="1.5" PointX="3" PointY="2.25" />
+        <EntityTypeShape EntityType="dbQLKhoModel.PhieuXuat" Width="1.5" PointX="3" PointY="5.125" />
+        <EntityTypeShape EntityType="dbQLKhoModel.VitriSua" Width="1.5" PointX="5.25" PointY="14.875" />
+        <AssociationConnector Association="dbQLKhoModel.FK_CT_XuatKho_LoHang" />
+        <AssociationConnector Association="dbQLKhoModel.FK_CT_XuatKho_PhieuXuat" />
+        <AssociationConnector Association="dbQLKhoModel.FK_HangHoa_NhomHangHoa" />
+        <AssociationConnector Association="dbQLKhoModel.FK_LoHang_HangHoa" />
+        <AssociationConnector Association="dbQLKhoModel.FK_LoHang_NhaCungCap" />
+        <AssociationConnector Association="dbQLKhoModel.FK_LoHang_NhaKho" />
+        <AssociationConnector Association="dbQLKhoModel.FK_LoHang_PhieuNhap" />
+        <AssociationConnector Association="dbQLKhoModel.FK_VitriSua_NhaKho" />
+        <AssociationConnector Association="dbQLKhoModel.FK_PhieuNhap_NhanVien" />
+        <AssociationConnector Association="dbQLKhoModel.FK_PhieuXuat_NhanVien" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

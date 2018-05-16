@@ -1,0 +1,210 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="dbQLKhoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="CT_NhapXuatKho">
+    <Key>
+      <PropertyRef Name="ID_CTNX" />
+    </Key>
+    <Property Name="ID_CTNX" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ID_Phieu" Type="int" />
+    <Property Name="MaLoHang" Type="int" />
+    <Property Name="SoLuong" Type="int" />
+    <Property Name="Note" Type="nvarchar" MaxLength="500" />
+  </EntityType>
+  <EntityType Name="HangHoa">
+    <Key>
+      <PropertyRef Name="MaHH" />
+    </Key>
+    <Property Name="MaHH" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TenHH" Type="nvarchar" MaxLength="500" />
+    <Property Name="MoTa" Type="nvarchar" MaxLength="500" />
+    <Property Name="ID_NHH" Type="int" />
+    <Property Name="IsDelete" Type="bit" />
+    <Property Name="SoLuongTon" Type="int" />
+  </EntityType>
+  <EntityType Name="LoHang">
+    <Key>
+      <PropertyRef Name="MaLoHang" />
+    </Key>
+    <Property Name="MaLoHang" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MaHH" Type="int" />
+    <Property Name="NSX" Type="datetime" />
+    <Property Name="HSD" Type="datetime" />
+    <Property Name="SoLuong" Type="int" />
+    <Property Name="Status" Type="int" />
+    <Property Name="ID_Kho" Type="int" />
+    <Property Name="ID_Phieu" Type="int" />
+    <Property Name="MaNCC" Type="int" />
+  </EntityType>
+  <EntityType Name="NhaCungCap">
+    <Key>
+      <PropertyRef Name="MaNCC" />
+    </Key>
+    <Property Name="MaNCC" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TenNCC" Type="nvarchar" MaxLength="500" />
+    <Property Name="DiaChi" Type="nvarchar" MaxLength="500" />
+    <Property Name="SDT" Type="nvarchar" MaxLength="500" />
+    <Property Name="Web" Type="nvarchar" MaxLength="500" />
+    <Property Name="IsDelete" Type="bit" />
+  </EntityType>
+  <EntityType Name="NhaKho">
+    <Key>
+      <PropertyRef Name="ID_Kho" />
+    </Key>
+    <Property Name="ID_Kho" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DiaChi" Type="nvarchar" MaxLength="500" />
+    <Property Name="Status" Type="int" />
+    <Property Name="Note" Type="nvarchar" MaxLength="500" />
+  </EntityType>
+  <EntityType Name="NhanVien">
+    <Key>
+      <PropertyRef Name="MaNV" />
+    </Key>
+    <Property Name="MaNV" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="TenNV" Type="nvarchar" MaxLength="50" />
+    <Property Name="PB" Type="nvarchar" MaxLength="50" />
+    <Property Name="CV" Type="nvarchar" MaxLength="50" />
+    <Property Name="MT" Type="nvarchar" MaxLength="50" />
+    <Property Name="MatKhau" Type="nvarchar" MaxLength="50" />
+    <Property Name="IsDelete" Type="bit" />
+  </EntityType>
+  <EntityType Name="NhapXuatKho">
+    <Key>
+      <PropertyRef Name="ID_Phieu" />
+    </Key>
+    <Property Name="ID_Phieu" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MaNV" Type="nvarchar" MaxLength="50" />
+    <Property Name="ThoiGian" Type="datetime" />
+    <Property Name="Status" Type="int" />
+    <Property Name="Note" Type="nvarchar" MaxLength="500" />
+  </EntityType>
+  <EntityType Name="NhomHangHoa">
+    <Key>
+      <PropertyRef Name="ID_NHH" />
+    </Key>
+    <Property Name="ID_NHH" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TenNHH" Type="nvarchar" MaxLength="500" />
+    <Property Name="IsDelete" Type="bit" />
+  </EntityType>
+  <Association Name="FK_CT_NhapXuatKho_LoHang">
+    <End Role="LoHang" Type="Self.LoHang" Multiplicity="0..1" />
+    <End Role="CT_NhapXuatKho" Type="Self.CT_NhapXuatKho" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="LoHang">
+        <PropertyRef Name="MaLoHang" />
+      </Principal>
+      <Dependent Role="CT_NhapXuatKho">
+        <PropertyRef Name="MaLoHang" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CT_NhapXuatKho_NhapXuatKho">
+    <End Role="NhapXuatKho" Type="Self.NhapXuatKho" Multiplicity="0..1" />
+    <End Role="CT_NhapXuatKho" Type="Self.CT_NhapXuatKho" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="NhapXuatKho">
+        <PropertyRef Name="ID_Phieu" />
+      </Principal>
+      <Dependent Role="CT_NhapXuatKho">
+        <PropertyRef Name="ID_Phieu" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_HangHoa_NhomHangHoa">
+    <End Role="NhomHangHoa" Type="Self.NhomHangHoa" Multiplicity="0..1" />
+    <End Role="HangHoa" Type="Self.HangHoa" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="NhomHangHoa">
+        <PropertyRef Name="ID_NHH" />
+      </Principal>
+      <Dependent Role="HangHoa">
+        <PropertyRef Name="ID_NHH" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LoHang_HangHoa">
+    <End Role="HangHoa" Type="Self.HangHoa" Multiplicity="0..1" />
+    <End Role="LoHang" Type="Self.LoHang" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="HangHoa">
+        <PropertyRef Name="MaHH" />
+      </Principal>
+      <Dependent Role="LoHang">
+        <PropertyRef Name="MaHH" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LoHang_NhaCungCap">
+    <End Role="NhaCungCap" Type="Self.NhaCungCap" Multiplicity="0..1" />
+    <End Role="LoHang" Type="Self.LoHang" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="NhaCungCap">
+        <PropertyRef Name="MaNCC" />
+      </Principal>
+      <Dependent Role="LoHang">
+        <PropertyRef Name="MaNCC" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LoHang_NhaKho">
+    <End Role="NhaKho" Type="Self.NhaKho" Multiplicity="0..1" />
+    <End Role="LoHang" Type="Self.LoHang" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="NhaKho">
+        <PropertyRef Name="ID_Kho" />
+      </Principal>
+      <Dependent Role="LoHang">
+        <PropertyRef Name="ID_Kho" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_NhapXuatKho_NhanVien">
+    <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="0..1" />
+    <End Role="NhapXuatKho" Type="Self.NhapXuatKho" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="NhanVien">
+        <PropertyRef Name="MaNV" />
+      </Principal>
+      <Dependent Role="NhapXuatKho">
+        <PropertyRef Name="MaNV" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="dbQLKhoModelStoreContainer">
+    <EntitySet Name="CT_NhapXuatKho" EntityType="Self.CT_NhapXuatKho" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="HangHoa" EntityType="Self.HangHoa" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="LoHang" EntityType="Self.LoHang" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="NhaCungCap" EntityType="Self.NhaCungCap" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="NhaKho" EntityType="Self.NhaKho" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="NhanVien" EntityType="Self.NhanVien" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="NhapXuatKho" EntityType="Self.NhapXuatKho" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="NhomHangHoa" EntityType="Self.NhomHangHoa" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_CT_NhapXuatKho_LoHang" Association="Self.FK_CT_NhapXuatKho_LoHang">
+      <End Role="LoHang" EntitySet="LoHang" />
+      <End Role="CT_NhapXuatKho" EntitySet="CT_NhapXuatKho" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CT_NhapXuatKho_NhapXuatKho" Association="Self.FK_CT_NhapXuatKho_NhapXuatKho">
+      <End Role="NhapXuatKho" EntitySet="NhapXuatKho" />
+      <End Role="CT_NhapXuatKho" EntitySet="CT_NhapXuatKho" />
+    </AssociationSet>
+    <AssociationSet Name="FK_HangHoa_NhomHangHoa" Association="Self.FK_HangHoa_NhomHangHoa">
+      <End Role="NhomHangHoa" EntitySet="NhomHangHoa" />
+      <End Role="HangHoa" EntitySet="HangHoa" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LoHang_HangHoa" Association="Self.FK_LoHang_HangHoa">
+      <End Role="HangHoa" EntitySet="HangHoa" />
+      <End Role="LoHang" EntitySet="LoHang" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LoHang_NhaCungCap" Association="Self.FK_LoHang_NhaCungCap">
+      <End Role="NhaCungCap" EntitySet="NhaCungCap" />
+      <End Role="LoHang" EntitySet="LoHang" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LoHang_NhaKho" Association="Self.FK_LoHang_NhaKho">
+      <End Role="NhaKho" EntitySet="NhaKho" />
+      <End Role="LoHang" EntitySet="LoHang" />
+    </AssociationSet>
+    <AssociationSet Name="FK_NhapXuatKho_NhanVien" Association="Self.FK_NhapXuatKho_NhanVien">
+      <End Role="NhanVien" EntitySet="NhanVien" />
+      <End Role="NhapXuatKho" EntitySet="NhapXuatKho" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
