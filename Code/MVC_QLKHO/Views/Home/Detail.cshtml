@@ -1,0 +1,44 @@
+﻿@model MVC_QLKHO.Models.LoHang
+
+@if (Model != null)
+{
+    <table class="table table-bordered">
+        <tr>
+            <td>MÃ LÔ HÀNG</td>
+            <td><b>@Model.MaLoHang</b></td>
+        </tr>
+        <tr>
+            <td>HÀNG HÓA</td>
+            <td><b>@Model.HangHoa.TenHH</b></td>
+        </tr>
+        <tr>
+            <td>NSX</td>
+            <td><b>@Model.NSX</b></td>
+        </tr>
+        <tr>
+            <td>HSD</td>
+            <td><b>@Model.HSD</b></td>
+        </tr>
+        <tr>
+            <td>SỐ LƯỢNG</td>
+            <td><b>@Model.SoLuong.Value.ToString("#,###")</b></td>
+        </tr>
+        <tr>
+            <td>NHẬP KHO LÚC</td>
+            <td><b>@Model.PhieuNhap.ThoiGian.Value.ToString("dd/MM/yyyy hh:mm:ss")</b></td>
+        </tr>
+        <tr>
+            <td>MÃ NHÀ KHO</td>
+            <td><b>@Model.ID_NhaKho</b></td>
+        </tr>
+        <tr>
+            <td>VỊ TRÍ</td>
+            <td><b>Tầng @Model.Tang - Hàng @Model.Hang - Cột @Model.Cot</b></td>
+        </tr>
+
+    </table>
+}
+else
+{
+    <p>Không tồn lại lô hàng này</p>
+}

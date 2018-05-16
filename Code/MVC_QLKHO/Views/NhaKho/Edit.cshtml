@@ -1,0 +1,59 @@
+﻿@model MVC_QLKHO.Models.NhaKho
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="panel panel-primary">
+    <div class="panel-heading">@ViewBag.Title</div>
+    <div class="panel-body">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true)
+                @Html.HiddenFor(model => model.ID_NhaKho)
+
+                <div class="form-group">
+                    @Html.Label("Số tầng", new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.SoTang, new { @class = "form-control", placeholder = "Vui lòng nhập giá trị", type = "number", min = "0", required = "required" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Số hàng", new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.SoHang, new { @class = "form-control", type = "number", min = "0", required = "required", placeholder = "Vui lòng nhập giá trị" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Số cột", new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.SoCot, new { @class = "form-control", type = "number", min = "0", required = "required", placeholder = "Vui lòng nhập giá trị" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Trạng thái kho", new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <select class="form-control" name="Status">
+                            <option value="SanSang">Sẵn sàng</option>
+                            <option value="Full">Đầy kho</option>
+                            <option value="SuaChua">Sửa chữa</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Lưu" class="btn btn-success" />
+                        @Html.ActionLink("Quay về quản lý", "Index", new { }, new { @class = "btn btn-default" })
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

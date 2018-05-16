@@ -1,0 +1,102 @@
+﻿@model IEnumerable<MVC_QLKHO.Models.CT_XuatKho>
+
+@{
+    ViewBag.Title = "CHI TIẾT PHIẾU XUẤT";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var phieuxuat = ViewBag.phieuxuat as MVC_QLKHO.Models.PhieuXuat;
+}
+
+@if (phieuxuat == null)
+{
+    <h3 class="text-danger">Không tồn tại phiếu xuất này.</h3>
+}
+else
+{
+    <div class="panel panel-primary">
+        <div class="panel-heading">PHIẾU XUẤT</div>
+        <div class="panel-body">
+            <table class="table table-bordered">
+                <tr>
+                    <td>MÃ PHIẾU XUẤT</td>
+                    <td><b>@phieuxuat.ID_PhieuXuat</b></td>
+                </tr>
+                <tr>
+                    <td>THỜI GIAN</td>
+                    <td><b>@phieuxuat.ThoiGian</b></td>
+                </tr>
+                <tr>
+                    <td>NHÂN VIÊN</td>
+                    <td><b>@phieuxuat.NhanVien.TenNV</b></td>
+                </tr>
+                <tr>
+                    <td>GHI CHÚ</td>
+                    <td><b>@phieuxuat.Note</b></td>
+                </tr>
+            </table>
+            <p>
+                @using (Html.BeginForm())
+                {
+                    <button class="btn btn-primary" name="export_excel" value="export_excel"><i class="fa fa-file-excel-o"></i> Xuất Excel</button>
+                    @Html.ActionLink("Trang chủ", "Index", "Home", new { }, new { @class = "btn btn-default" })
+                }
+            </p>
+        </div>
+    </div>
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">CÁC HÀNG HÓA ĐÃ XUẤT KHO</div>
+        <div class="panel-body">
+            <table class="table table-bordered" id="m-table">
+                <thead>
+                    <tr>
+                        <th>
+                            MÃ LÔ HÀNG
+                        </th>
+                        <th>
+                            HÀNG HÓA
+                        </th>
+                        <th>
+                            SỐ LƯỢNG
+                        </th>
+                        <th>
+                            GHI CHÚ
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.LoHang.MaLoHang)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.LoHang.HangHoa.TenHH)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.SoLuong)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Note)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    @section css{
+        <link href="~/Content/theme/vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet" />
+        <link href="~/Content/theme/vendor/datatables/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+    }
+
+    @section js{
+        <script src="~/Content/theme/vendor/datatables/js/jquery.dataTables.min.js"></script>
+        <script src="~/Content/theme/vendor/datatables/js/dataTables.bootstrap.min.js"></script>
+        <script>
+            $($("#m-table").dataTable());
+        </script>
+    }
+
+}

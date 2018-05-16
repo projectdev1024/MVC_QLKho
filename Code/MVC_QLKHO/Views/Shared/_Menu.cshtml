@@ -1,0 +1,41 @@
+﻿<ul class="nav" id="side-menu">
+    <li>
+        <a href="@Url.Action("Index","Home")"><i class="fa fa-home"></i> TRANG CHỦ</a>
+    </li>
+    <li>
+        <a href="#"><i class="fa fa-th-list"></i> DANH MỤC<span class="fa arrow"></span></a>
+        <ul class="nav nav-second-level">
+            <li>
+                <a href="@Url.Action("Index", "NhomHangHoa")"> <i class="fa fa-tasks"></i> NHÓM HÀNG HÓA</a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index", "HangHoa")"><i class="fa fa-product-hunt"></i> HÀNG HÓA</a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index", "NhaKho")"><i class="fa fa-industry"></i> NHÀ KHO</a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index", "NhaCungCap")"><i class="fa fa-truck"></i> NHÀ CUNG CẤP</a>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a href="#"><i class="fa fa-file-excel-o"></i> BÁO CÁO<span class="fa arrow"></span></a>
+        <ul class="nav nav-second-level">
+            <li>
+                <a href="@Url.Action("Index", "PhieuNhap")"><i class="fa fa-download"></i> NHẬP KHO</a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index", "PhieuXuat")"><i class="fa fa-upload"></i> XUẤT KHO</a>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a href="#"><i class="fa fa-cog"></i> HỆ THỐNG<span class="fa arrow"></span></a>
+        <ul class="nav nav-second-level">
+            <li>
+                <a href="@Url.Action("Index", "NhanVien")"><i class="fa fa-users"></i> DANH SÁCH NHÂN VIÊN</a>
+            </li>
+        </ul>
+    </li>
+</ul>

@@ -1,0 +1,111 @@
+﻿@model IEnumerable<MVC_QLKHO.Models.NhaKho>
+
+@{
+    ViewBag.Title = "DANH SÁCH NHÀ KHO";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="panel panel-primary">
+    <div class="panel-heading">@ViewBag.Title</div>
+    <div class="panel-body">
+
+        <table class="table table-bordered" id="m-table">
+            <thead>
+                <tr>
+                    <th>
+                        MÃ NHÀ KHO
+                    </th>
+                    <th>
+                        SỐ TẦNG
+                    </th>
+                    <th>
+                        SỐ HÀNG
+                    </th>
+                    <th>
+                        SỐ CỘT
+                    </th>
+                    <th>
+                        TRẠNG THÁI
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ID_NhaKho)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SoTang)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SoHang)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SoCot)
+                        </td>
+                        <td>
+                            @switch (item.Status)
+                            {
+                                case "DaXoa":
+                                    <label>Đã xóa</label>
+                                    break;
+                                case "SanSang":
+                                <label>Sẵn sàng</label>
+                                    break;
+                                case "Full":
+                                <label>Đầy kho</label>
+                                    break;
+                                case "SuaChua":
+                                <label>Sửa chữa</label>
+                                    break;
+                                default:
+                                <label>@item.Status</label>
+                                    break;
+                            }
+                        </td>
+                        <td>
+                            <a href="@Url.Action("Edit", new { id = item.ID_NhaKho })" class="btn btn-primary"> <i class="fa fa-edit"></i> Sửa</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section css{
+    <link href="~/Content/theme/vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet" />
+    <link href="~/Content/theme/vendor/datatables/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+}
+
+@section js{
+    <script src="~/Content/theme/vendor/datatables/js/dataTables.bootstrap.min.js"></script>
+    <script src="~/Content/theme/vendor/datatables/js/jquery.dataTables.min.js"></script>
+    <script>
+        $($("#m-table").dataTable());
+    </script>
+    <script>
+        function delete_object(id, target) {
+            if (confirm("Bạn có muốn xóa?")) {
+                $.ajax({
+                    url: '@Url.Action("Delete")',
+                    type: 'POST',
+                    data: { id: id },
+                    success: function (d) {
+                        if (d) {
+                            $(target).closest('tr').remove();
+                        } else {
+                            alert("Xóa thất bại!");
+                        }
+                    },
+                    error: function (e) {
+                        alert("Rất tiếc đã xảy ra lỗi");
+                    }
+                })
+            }
+        }
+    </script>
+}

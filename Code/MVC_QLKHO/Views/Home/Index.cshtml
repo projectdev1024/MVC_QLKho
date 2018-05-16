@@ -1,0 +1,518 @@
+﻿
+@model IEnumerable<MVC_QLKHO.Models.LoHang>
+
+@{
+    ViewBag.Title = "DANH SÁCH LÔ HÀNG";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var lstNhaKho = ViewBag.lstNhaKho as IEnumerable<MVC_QLKHO.Models.NhaKho>;
+    var lstViTriSua = ViewBag.lstViTriSua as IEnumerable<MVC_QLKHO.Models.VitriSua>;
+    var color_suachua = "#e89f36";
+    var color_cohang = "#c1d224";
+    var color_trong = "#eaf9ef";
+    var color_nhaphang = "#7ab2cf";
+}
+
+<div class="panel panel-primary">
+    <div class="panel-heading">@ViewBag.Title</div>
+    <div class="panel-body">
+        @foreach (var kho in lstNhaKho)
+        {
+            <table class="table table-bordered table-kho">
+                <thead>
+                    <tr>
+                        <td>Tầng</td>
+                        @for (int cot = 1; cot <= kho.SoCot; cot++)
+                        {
+                            <td>Cột @cot</td>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int tang = 1; tang <= kho.SoTang.Value; tang++)
+                    {
+                        for (int hang = 1; hang <= kho.SoHang.Value; hang++)
+                        {
+                            <tr>
+                                @if (hang == 1)
+                                {
+                                    <td rowspan="@kho.SoHang.Value">Tầng @tang</td>
+                                }
+                                @for (int cot = 1; cot <= kho.SoCot.Value; cot++)
+                                {
+                                    var ob = Model.FirstOrDefault(q => q.Hang == hang && q.Cot == cot && q.Tang == tang);
+                                    if (ob != null)
+                                    {
+                                        <td style="background: @color_cohang">
+                                            <span>Hàng @hang - Cột @cot: </span>
+                                            <table>
+                                                <tr><td>Mã lô hàng: <b>@ob.MaLoHang</b></td></tr>
+                                                <tr><td>Hàng hóa: <b>@ob.HangHoa.TenHH </b> <i class="btn btn-circle btn-default fa fa-info-circle" onclick="detail('@ob.MaLoHang')"></i></td></tr>
+                                                <tr>
+                                                    <td data-soluong="@ob.SoLuong">
+                                                        <div class="input-group">
+                                                            <input type="number" class="form-control input-soluong" placeholder="SL Xuất kho">
+                                                            <span onclick="xuatkho('@ob.MaLoHang','@ob.HangHoa.TenHH',this)" class="input-group-addon btn btn-default btn-dropbox">
+                                                                <b>/@ob.SoLuong</b> <i class="fa fa-upload"></i>
+                                                            </span>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        var vts = lstViTriSua.FirstOrDefault(q => q.Tang == tang && q.Hang == hang && q.Cot == cot);
+                                        if (vts != null)
+                                        {
+                                            <td style="background: #e89f36; margin-top: 45%">
+                                                <span>Hàng @hang - Cột @cot: </span>
+                                                <p>Ghi chú: <i><u>@vts.Note</u></i></p>
+                                                <span class="btn btn-success btn-circle" onclick="fixed('@vts.ID_ViTri')"> <i class="fa fa-check-circle"></i></span>
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td style="margin-top: 45%; background: @color_trong">
+                                                <p>Hàng @hang - Cột @cot. </p>
+                                                <span class="btn btn-circle btn-primary" onclick="importing({Tang: @tang, Hang: @hang, Cot: @cot, ID_NhaKho : @kho.ID_NhaKho  },this)"><i class="fa fa-download"></i></span>
+                                                <span class="btn btn-circle btn-warning" onclick="confirm_fixing({Tang: @tang, Hang: @hang, Cot: @cot, ID_NhaKho : @kho.ID_NhaKho ,Note: ''})"><i class=" fa fa-wrench"></i></span>
+                                            </td>
+                                        }
+                                    }
+                                }
+                            </tr>
+                        }
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td>Tầng</td>
+                        @for (int cot = 1; cot <= kho.SoCot; cot++)
+                        {
+                            <td>Cột @cot</td>
+                        }
+                    </tr>
+                </tfoot>
+            </table>
+
+            <p><b>CHÚ THÍCH:</b></p>
+            <p>- <span class="btn" style="background: @color_suachua"></span>: Vị trí đang SỬA CHỮA</p>
+            <p>- <span class="btn" style="background: @color_cohang"></span>: Vị trí đang CÓ HÀNG</p>
+            <p>- <span class="btn" style="background: @color_trong"></span>: Vị trí đang TRỐNG</p>
+            <p>- <span class="btn" style="background: @color_nhaphang"></span>: Vị trí đang NHẬP HÀNG</p>
+            <hr />
+            using (Html.BeginForm("XuatKho", "Home"))
+            {
+                <div class="panel panel-default">
+                    <div class="panel-heading">DANH SÁCH XUẤT KHO</div>
+                    <div class="panel-body">
+                        <table class="table table-bordered" id="table-xuatkho">
+                            <thead>
+                                <tr>
+                                    <td>MÃ LÔ HÀNG</td>
+                                    <td>TÊN SẢN PHẨM</td>
+                                    <td>SỐ LƯỢNG</td>
+                                    <td>GHI CHÚ</td>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <div class="panel-footer">
+                        <button id="btnXuatkho" class="btn btn-default">Hoàn thành xuất kho</button>
+                    </div>
+                </div>
+            }
+
+            using (Html.BeginForm("NhapKho", "Home"))
+            {
+                <div class="panel panel-primary">
+                    <div class="panel-heading">DANH SÁCH NHẬP KHO</div>
+                    <div class="panel-body">
+                        <table class="table table-bordered" id="table-nhapkho">
+                            <thead>
+                                <tr>
+                                    <td>HÀNG HÓA</td>
+                                    <td>NHÀ CUNG CẤP</td>
+                                    <td>NGÀY SẢN XUẤT</td>
+                                    <td>HẠN SỬ DỤNG</td>
+                                    <td>SỐ LƯỢNG</td>
+                                    <td>VỊ TRÍ</td>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <div class="panel-footer">
+                        <button id="btnNhapkho" class="btn btn-default">Hoàn thành nhập kho</button>
+                    </div>
+                </div>
+            }
+        }
+
+
+        <p><b>LƯU Ý:</b></p>
+        <p><i>- Nhập kho: Lần lượt nhập số lượng các sản phẩm trong kho <i class="btn btn-default fa fa-upload"></i> và bấm <b>Hoàn thành xuất kho</b> để xuất kho</i></p>
+        <p><i>- Nhập kho: Lần lượt bấm <i class="fa fa-download btn btn-circle btn-primary"></i> và nhập giá trị và bấm <b>Hoàn thành nhập kho</b> để nhập kho</i></p>
+        <p><i>- Sửa chữa vị trí trong kho: Click <i class="btn btn-circle btn-warning fa fa-wrench"></i> và xác nhận thông báo để sửa chữa vị trí</i></p>
+        <p><i>- Hoàn thành sửa chữa vị trí trong kho: Click <i class="btn btn-circle btn-success fa  fa-check-circle"></i> và xác nhận thông báo để sử dụng vị trí</i></p>
+        <p><i>- Hủy tác vụ: Vui lòng reload trang web hoặc bấm Ctrl+R.</i></p>
+    </div>
+</div>
+
+@section js{
+
+    <!-- js sửa chữa -->
+    <script>
+        function fixed(id) {
+            if (confirm("Bạn có muốn sử dụng vị trí này?")) {
+                $.ajax({
+                    url: '@Url.Action("Fixed","Home")',
+                    type: 'POST',
+                    data: { id: id },
+                    success: function (d) {
+                        if (d) {
+                            window.location.reload();
+                        } else {
+                            alert("Thay đổi thất bại");
+                        }
+                    },error: function(){
+                        alert("Đã có lỗi xảy ra");
+                    }
+                })
+            }
+        }
+
+        function confirm_fixing(vts) {
+            new_vts = vts;
+            $('#info_vitrisua').text(`Tầng ${vts.Tang} - Hàng ${vts.Hang} - Cột ${vts.Cot}`); //ES6
+        $("#myModal-fixing").modal("show");
+        }
+
+        var new_vts = undefined;
+        function fixing() {
+            new_vts.Note = $('#txtNote_ViTriSua').val();
+            $.ajax({
+                url: '@Url.Action("AddViTriSua","Home")',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(new_vts),
+                success: function (d) {
+                    if (d) {
+                        window.location.reload();
+                    } else {
+                        alert("Thay đổi thất bại");
+                    }
+                },error: function(){
+                    alert("Đã có lỗi xảy ra");
+                }
+            })
+        }
+    </script>
+
+    <!-- js xuất kho -->
+    <script>
+        $('#btnXuatkho').hide();
+        var index_xuatkho = 0;
+        function xuatkho(maLoHang, tensp, e) {
+            let soluong = $(e).closest('td').data('soluong');
+            var input = $(e).siblings('.input-soluong').val();
+            if (soluong > 0) {
+                if (input && 0 < Number(input) && Number(input) <= soluong) {
+                    $('#btnXuatkho').show();
+                    $('#table-xuatkho tbody').append(`
+                            <tr>
+                                    <td><input type="text" readonly name="[${index_xuatkho}].MaLoHang" value="${maLoHang}" class="form-control" placeholder="MÃ LÔ HÀNG" /></td>
+                                    <td><input type="text" readonly class="form-control" value="${tensp}" /></td>
+                                    <td><input type="text" readonly name="[${index_xuatkho}].SoLuong" value="${input}" class="form-control" placeholder="SỐ LƯỢNG" /></td>
+                                    <td><input type="text" name="[${index_xuatkho++}].Note" class="form-control" placeholder="GHI CHÚ" /></td>
+                                </tr>
+                            `);
+                    $(e).closest('td').data('soluong', soluong - Number(input));
+                    $(e).html(` <b>/${soluong - Number(input)}</b> <i class="fa fa-upload"></i>`);
+                } else {
+                    alert("Vui lòng nhập số lượng hợp lệ.");
+                }
+            } else {
+                alert("Số lượng hiện tại không đủ để xuất kho.");
+            }
+            debugger
+        }
+    </script>
+
+    <!-- js nhập kho -->
+    <script>
+        $('#btnNhapkho').hide();
+        function importing(thc, e) {
+            mlohang.lohang.Tang = thc.Tang;
+            mlohang.lohang.Hang = thc.Hang;
+            mlohang.lohang.Cot = thc.Cot;
+            mlohang.lohang.ID_NhaKho = thc.ID_NhaKho;
+            mlohang.e = e;
+            $('#nhapkho-vitri').text(`TẦNG ${mlohang.lohang.Tang} - HÀNG ${mlohang.lohang.Hang} - CỘT ${mlohang.lohang.Cot}`);
+            $('#myModal-importing').modal("show");
+        }
+
+        var mlohang = {
+            e: 0,
+            lohang: {
+                MaLoHang: 0,
+                MaHH: 0,
+                NSX: 0,
+                HSD: 0,
+                SoLuong: 0,
+                Status: 0,
+                ID_NhaKho: 0,
+                ID_PhieuNhap: 0,
+                MaNCC: 0,
+                Tang: 0,
+                Hang: 0,
+                Cot: 0,
+            }
+        };
+        var index_nhapkho = 0;
+        function nhapkho() {
+
+            mlohang.lohang.MaHH = $('#MaHH').val();
+            mlohang.lohang.NSX = $('#nk-nsx').val();
+            mlohang.lohang.HSD = $('#nk-hsd').val();
+            mlohang.lohang.SoLuong = $('#nk-sl').val();
+            mlohang.lohang.MaNCC = $('#MaNCC').val();
+
+            if (mlohang.lohang.MaHH && mlohang.lohang.NSX && mlohang.lohang.HSD && mlohang.lohang.SoLuong && mlohang.lohang.MaNCC) {
+
+                if (mlohang.lohang.SoLuong <= 0) {
+                    alert("Vui lòng kiểm tra lại số lượng hàng hóa.");
+                    return false;
+                }
+
+                $('#btnNhapkho').show();
+                $(mlohang.e).hide();
+                $(mlohang.e).closest("td").addClass("importing");
+                $(mlohang.e).closest("td").text("ĐANG NHẬP KHO")
+
+                var selectNCC = $('#selectNCC').clone();
+                selectNCC.children("select").attr("name", `[${index_nhapkho}].MaNCC`);
+                selectNCC.children("select").attr("id", `MaNCC${index_nhapkho}`);
+
+                var selectHH = $('#selectHH').clone();
+                selectHH.children("select").attr("name", `[${index_nhapkho}].MaHH`);
+                selectHH.children("select").attr("id", `MaHH${index_nhapkho}`);
+
+                $('#table-nhapkho tbody').append(`
+                <tr>
+                    <td>${$(selectHH).html()}</td>
+                    <td>${$(selectNCC).html()}</td>
+                    <td><input type="text" readonly name="[${index_nhapkho}].NSX" value="${mlohang.lohang.NSX}" class="form-control" placeholder="Vui lòng nhập giá trị" /></td>
+                    <td><input type="text" readonly name="[${index_nhapkho}].HSD" value="${mlohang.lohang.HSD}" class="form-control" placeholder="Vui lòng nhập giá trị" /></td>
+                    <td><input type="number" name="[${index_nhapkho}].SoLuong" value="${mlohang.lohang.SoLuong}" class="form-control" placeholder="Vui lòng nhập giá trị" /></td>
+                    <td>
+                        <input type="hidden" readonly name="[${index_nhapkho}].ID_NhaKho" value="${mlohang.lohang.ID_NhaKho}" class="form-control" placeholder="Vui lòng nhập giá trị" />
+                        <input type="hidden" readonly name="[${index_nhapkho}].Tang" value="${mlohang.lohang.Tang}" class="form-control" placeholder="Vui lòng nhập giá trị" />
+                        <input type="hidden" readonly name="[${index_nhapkho}].Hang" value="${mlohang.lohang.Hang}" class="form-control" placeholder="Vui lòng nhập giá trị" />
+                        <input type="hidden" readonly name="[${index_nhapkho++}].Cot" value="${mlohang.lohang.Cot}" class="form-control" placeholder="Vui lòng nhập giá trị" />
+                        Tầng ${mlohang.lohang.Tang} - hàng ${mlohang.lohang.Hang} - cột ${mlohang.lohang.Cot}
+            </td>
+        </tr>
+                    `);
+                $(`#MaNCC${index_nhapkho - 1}`).val(mlohang.lohang.MaNCC);
+                $(`#MaHH${index_nhapkho - 1}`).val(mlohang.lohang.MaHH);
+                $('#myModal-importing').modal("hide");
+                return true;
+            }
+
+            alert("Vui lòng nhập đầy đủ giá trị");
+            return false;
+        }
+    </script>
+    <script>
+        function checkID(adress, sender) {
+            value = $(sender).siblings('input').val();
+            if (value) {
+                var cmb = $(adress);
+                var has = false;
+                cmb.children('option').each(function () {
+                    if ($(this).val() == value) {
+                        cmb.val(value);
+                        has = true;
+                    }
+                });
+                if (has == false) {
+                    alert("Không tồn tại giá trị này, vui lòng kiểm tra lại");
+                    return false;
+                }
+            } else {
+                alert("Vui lòng nhập giá trị");
+            }
+        }
+
+        function keyup_checkID(e, adress, sender) {
+            if (e.keyCode == 13) {
+                value = $(sender).val();
+                if (value) {
+                    var cmb = $(adress);
+                    var has = false;
+                    cmb.children('option').each(function () {
+                        if ($(this).val() == value) {
+                            cmb.val(value);
+                            has = true;
+                        }
+                    });
+                    if (has == false) {
+                        alert("Không tồn tại giá trị này, vui lòng kiểm tra lại");
+                        return false;
+                    }
+                } else {
+                    alert("Vui lòng nhập giá trị");
+                }
+            }
+        }
+
+        function fill(sender, adress) {
+            $(adress).val($(sender).val());
+        }
+    </script>
+
+    <script>
+        function detail(id){
+            $.ajax({
+                url: '@Url.Action("Detail", "Home")',
+                type: 'POST',
+                data: { id: id },
+                success: function (d) {
+                    $('.detail-content').html(d);
+                    $('#myModal-detail').modal('show');
+                },error: function(){
+                    alert("Đã có lỗi xảy ra");
+                }
+            });
+        }
+    </script>
+}
+
+<!-- Modal sửa chữa -->
+<div id="myModal-fixing" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">THÊM MỚI VỊ TRÍ SỬA</h4>
+            </div>
+            <div class="modal-body">
+                <p>Thông tin vị trí: </p>
+                <p id="info_vitrisua"></p>
+                <p>
+                    <div class="input-group  btn-info">
+                        <span class="input-group-addon" id="basic-addon1"><i class=" fa fa-info"></i> Ghi chú: </span>
+                        <input id="txtNote_ViTriSua" type="text" class="form-control" placeholder="Ghi chú" aria-describedby="basic-addon1">
+                    </div>
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal" onclick="fixing()">Hoàn thành</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- Modal nhập kho -->
+<div id="myModal-importing" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">NHẬP KHO - THÔNG TIN LÔ HÀNG</h4>
+            </div>
+            <div class="modal-body">
+
+                <table class="table-bordered table">
+                    <tr>
+                        <td rowspan="2" style="line-height: 100px">HÀNG HÓA</td>
+                        <td>
+                            <div class="input-group">
+                                <input type="text" id="txtmahh" class="form-control" placeholder="Nhập Mã hàng hóa" aria-describedby="basic-addon1" onkeyup="keyup_checkID(event,'#MaHH',this)">
+                                <span class="input-group-addon btn" onclick="return checkID('#MaHH',this)">Check</span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td id="selectHH">
+                            @Html.DropDownList("MaHH", ViewBag.selectHH as SelectList, "Hoặc chọn một giá trị", new { @class = "form-control", onchange = "fill(this,'#txtmahh')" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2" style="line-height: 100px">NHÀ CUNG CẤP</td>
+                        <td>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="txtmancc" placeholder="Nhập Mã nhà cung cấp" aria-describedby="basic-addon1" onkeyup="keyup_checkID(event,'#MaNCC',this)">
+                                <span class="input-group-addon btn" onclick="return checkID('#MaNCC',this)">Check</span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td id="selectNCC">
+                            @Html.DropDownList("MaNCC", ViewBag.selectNCC as SelectList, "Hoặc chọn một giá trị", new { @class = "form-control", onchange = "fill(this,'#txtmancc')" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>SỐ LƯỢNG</td>
+                        <td><input id="nk-sl" type="number" class="form-control" placeholder="SỐ LƯỢNG"></td>
+                    </tr>
+                    <tr>
+                        <td>NSX</td>
+                        <td><input id="nk-nsx" type="date" class="form-control" placeholder="NSX"></td>
+                    </tr>
+                    <tr>
+                        <td>HSD</td>
+                        <td><input id="nk-hsd" type="date" class="form-control" placeholder="HSD"></td>
+                    </tr>
+                    <tr>
+                        <td>VỊ TRÍ</td>
+                        <td id="nhapkho-vitri">TẦNG  - HÀNG - CỘT</td>
+                    </tr>
+                </table>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" onclick="return nhapkho()">Hoàn thành</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<style>
+    .importing {
+        background: @color_nhaphang;
+    }
+</style>
+
+<!-- Modal chi tiết -->
+<div id="myModal-detail" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">CHI TIẾT LÔ HÀNG</h4>
+            </div>
+            <div class="modal-body">
+                <p class="detail-content"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
+            </div>
+        </div>
+
+    </div>
+</div>

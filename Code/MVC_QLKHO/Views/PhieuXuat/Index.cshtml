@@ -1,0 +1,84 @@
+﻿@model IEnumerable<MVC_QLKHO.Models.PhieuXuat>
+
+@{
+    ViewBag.Title = "DANH SÁCH PHIẾU XUẤT";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="panel panel-primary">
+    <div class="panel-heading">@ViewBag.Title</div>
+    <div class="panel-body">
+        <p>
+            <a href="@Url.Action("Edit")" class="btn btn-success"> <i class="fa fa-plus"></i> Thêm mới</a>
+        </p>
+        <div class="row col-md-12" style="margin: 9px">
+            @using (Html.BeginForm())
+            {
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i> Từ ngày</span>
+                        <input type="date" name="TimeStart" class="form-control">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i> Tới ngày</span>
+                        <input type="date" name="TimeEnd" class="form-control">
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-primary" name="filter" value="filter"><i class="fa fa-filter"></i> Lọc</button>
+                </div>
+            }
+        </div>
+        <table class="table table-bordered" id="m-table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ThoiGian)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Note)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.NhanVien.TenNV)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ThoiGian)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Note)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NhanVien.TenNV)
+                        </td>
+                        <td>
+                            <a href="@Url.Action("Index", "CTXuatKho", new { ID_PhieuXuat = item.ID_PhieuXuat })" class="btn btn-bitbucket"> <i class="fa fa-edit"></i> Hóa đơn</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    </div>
+</div>
+
+@section css{
+    <link href="~/Content/theme/vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet" />
+    <link href="~/Content/theme/vendor/datatables/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+}
+
+@section js{
+    <script src="~/Content/theme/vendor/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="~/Content/theme/vendor/datatables/js/dataTables.bootstrap.min.js"></script>
+    <script>
+        $($("#m-table").dataTable());
+    </script>
+}

@@ -1,0 +1,99 @@
+﻿@model IEnumerable<MVC_QLKHO.Models.HangHoa>
+
+@{
+    ViewBag.Title = "DANH SÁCH HÀNG HÓA";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="panel panel-primary">
+    <div class="panel-heading">@ViewBag.Title</div>
+    <div class="panel-body">
+        <p>
+            <a href="@Url.Action("Edit")" class="btn btn-success"> <i class="fa fa-plus"></i> Thêm mới</a>
+        </p>
+        <table class="table table-bordered" id="m-table">
+            <thead>
+                <tr>
+                    <th>
+                        MÃ HÀNG HÓA
+                    </th>
+                    <th>
+                        NHÓM HÀNG HÓA
+                    </th>
+                    <th>
+                        TÊN HÀNG HÓA
+                    </th>
+                    <th>
+                        SỐ LƯỢNG TỒN
+                    </th>
+                    <th>
+                        MÔ TẢ
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.MaHH)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NhomHangHoa.TenNHH)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TenHH)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SoLuongTon)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.MoTa)
+                        </td>
+                        <td>
+                            <a href="@Url.Action("Edit", new { id = item.MaHH})" class="btn btn-primary"> <i class="fa fa-edit"></i> Sửa</a>
+                            @if (item.SoLuongTon <= 0)
+                            {
+                                <a href="javascript: void(0);" class="btn btn-warning" onclick="delete_object('@item.MaHH', this)"> <i class="fa fa-remove"></i> Xóa</a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+@section css{
+    <link href="~/Content/theme/vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet" />
+    <link href="~/Content/theme/vendor/datatables/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+}
+
+@section js{
+    <script src="~/Content/theme/vendor/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="~/Content/theme/vendor/datatables/js/dataTables.bootstrap.min.js"></script>
+    <script>
+        $($("#m-table").dataTable());
+    </script>
+    <script>
+        function delete_object(id, target) {
+            if (confirm("Bạn có muốn xóa?")) {
+                $.ajax({
+                    url: '@Url.Action("Delete")',
+                    type: 'POST',
+                    data: { id: id },
+                    success: function (d) {
+                        if (d) {
+                            $(target).closest('tr').remove();
+                        } else {
+                            alert("Xóa thất bại!");
+                        }
+                    },
+                    error: function (e) {
+                        alert("Rất tiếc đã xảy ra lỗi");
+                    }
+                })
+            }
+        }
+    </script>
+}

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="1657e8ae6a884f50918896d45df47a8c" Name="Diagram1">
+        <EntityTypeShape EntityType="dbQLKhoModel.CT_XuatKho" Width="1.5" PointX="7.5" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbQLKhoModel.HangHoa" Width="1.5" PointX="3" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbQLKhoModel.LoHang" Width="1.5" PointX="5.25" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbQLKhoModel.NhaCungCap" Width="1.5" PointX="3" PointY="12" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbQLKhoModel.NhaKho" Width="1.5" PointX="3" PointY="15" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbQLKhoModel.NhanVien" Width="1.5" PointX="0.75" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbQLKhoModel.NhomHangHoa" Width="1.5" PointX="0.75" PointY="9" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbQLKhoModel.PhieuNhap" Width="1.5" PointX="3" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbQLKhoModel.PhieuXuat" Width="1.5" PointX="3" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbQLKhoModel.VitriSua" Width="1.5" PointX="5.25" PointY="15" IsExpanded="true" />
+        <AssociationConnector Association="dbQLKhoModel.FK_CT_XuatKho_LoHang" ManuallyRouted="false" />
+        <AssociationConnector Association="dbQLKhoModel.FK_CT_XuatKho_PhieuXuat" ManuallyRouted="false" />
+        <AssociationConnector Association="dbQLKhoModel.FK_HangHoa_NhomHangHoa" ManuallyRouted="false" />
+        <AssociationConnector Association="dbQLKhoModel.FK_LoHang_HangHoa" ManuallyRouted="false" />
+        <AssociationConnector Association="dbQLKhoModel.FK_LoHang_NhaCungCap" ManuallyRouted="false" />
+        <AssociationConnector Association="dbQLKhoModel.FK_LoHang_NhaKho" ManuallyRouted="false" />
+        <AssociationConnector Association="dbQLKhoModel.FK_LoHang_PhieuNhap" ManuallyRouted="false" />
+        <AssociationConnector Association="dbQLKhoModel.FK_VitriSua_NhaKho" ManuallyRouted="false" />
+        <AssociationConnector Association="dbQLKhoModel.FK_PhieuNhap_NhanVien" ManuallyRouted="false" />
+        <AssociationConnector Association="dbQLKhoModel.FK_PhieuXuat_NhanVien" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

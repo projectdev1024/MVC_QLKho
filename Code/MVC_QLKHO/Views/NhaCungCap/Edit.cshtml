@@ -1,0 +1,61 @@
+﻿@model MVC_QLKHO.Models.NhaCungCap
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="panel panel-primary">
+    <div class="panel-heading">@ViewBag.Title</div>
+    <div class="panel-body">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true)
+                @Html.HiddenFor(model => model.IsDelete)
+
+                <div class="form-group">
+                    @Html.Label("MÃ NHÀ CUNG CẤP", new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.MaNCC, new { @class = "form-control", required = "required", placeholder = "Vui lòng nhập giá trị" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("TÊN NHÀ CUNG CẤP", new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.TenNCC, new { @class = "form-control", required = "required", placeholder = "Vui lòng nhập giá trị" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("ĐỊA CHỈ", new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.DiaChi, new { @class = "form-control", required = "required", placeholder = "Vui lòng nhập giá trị" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("SỐ ĐIỆN THOẠI", new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.SDT, new { @class = "form-control", placeholder = "Vui lòng nhập giá trị" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("WEBSITE", new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.Web, new { @class = "form-control", placeholder = "Vui lòng nhập giá trị" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Lưu" class="btn btn-success" />
+                        @Html.ActionLink("Quay về quản lý", "Index", new { }, new { @class = "btn btn-default" })
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

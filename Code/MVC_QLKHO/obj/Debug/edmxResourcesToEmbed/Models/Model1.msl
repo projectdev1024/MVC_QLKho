@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="dbQLKhoModelStoreContainer" CdmEntityContainer="dbQLKhoEntities">
+    <EntitySetMapping Name="CT_XuatKho">
+      <EntityTypeMapping TypeName="IsTypeOf(dbQLKhoModel.CT_XuatKho)">
+        <MappingFragment StoreEntitySet="CT_XuatKho">
+          <ScalarProperty Name="ID_CT" ColumnName="ID_CT" />
+          <ScalarProperty Name="ID_PhieuXuat" ColumnName="ID_PhieuXuat" />
+          <ScalarProperty Name="MaLoHang" ColumnName="MaLoHang" />
+          <ScalarProperty Name="SoLuong" ColumnName="SoLuong" />
+          <ScalarProperty Name="Note" ColumnName="Note" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HangHoas">
+      <EntityTypeMapping TypeName="IsTypeOf(dbQLKhoModel.HangHoa)">
+        <MappingFragment StoreEntitySet="HangHoas">
+          <ScalarProperty Name="MaHH" ColumnName="MaHH" />
+          <ScalarProperty Name="TenHH" ColumnName="TenHH" />
+          <ScalarProperty Name="MoTa" ColumnName="MoTa" />
+          <ScalarProperty Name="ID_NHH" ColumnName="ID_NHH" />
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+          <ScalarProperty Name="SoLuongTon" ColumnName="SoLuongTon" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LoHangs">
+      <EntityTypeMapping TypeName="IsTypeOf(dbQLKhoModel.LoHang)">
+        <MappingFragment StoreEntitySet="LoHangs">
+          <ScalarProperty Name="MaLoHang" ColumnName="MaLoHang" />
+          <ScalarProperty Name="MaHH" ColumnName="MaHH" />
+          <ScalarProperty Name="NSX" ColumnName="NSX" />
+          <ScalarProperty Name="HSD" ColumnName="HSD" />
+          <ScalarProperty Name="SoLuong" ColumnName="SoLuong" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="ID_NhaKho" ColumnName="ID_NhaKho" />
+          <ScalarProperty Name="ID_PhieuNhap" ColumnName="ID_PhieuNhap" />
+          <ScalarProperty Name="MaNCC" ColumnName="MaNCC" />
+          <ScalarProperty Name="Tang" ColumnName="Tang" />
+          <ScalarProperty Name="Hang" ColumnName="Hang" />
+          <ScalarProperty Name="Cot" ColumnName="Cot" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="NhaCungCaps">
+      <EntityTypeMapping TypeName="IsTypeOf(dbQLKhoModel.NhaCungCap)">
+        <MappingFragment StoreEntitySet="NhaCungCaps">
+          <ScalarProperty Name="MaNCC" ColumnName="MaNCC" />
+          <ScalarProperty Name="TenNCC" ColumnName="TenNCC" />
+          <ScalarProperty Name="DiaChi" ColumnName="DiaChi" />
+          <ScalarProperty Name="SDT" ColumnName="SDT" />
+          <ScalarProperty Name="Web" ColumnName="Web" />
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="NhaKhoes">
+      <EntityTypeMapping TypeName="IsTypeOf(dbQLKhoModel.NhaKho)">
+        <MappingFragment StoreEntitySet="NhaKhoes">
+          <ScalarProperty Name="ID_NhaKho" ColumnName="ID_NhaKho" />
+          <ScalarProperty Name="SoTang" ColumnName="SoTang" />
+          <ScalarProperty Name="SoHang" ColumnName="SoHang" />
+          <ScalarProperty Name="SoCot" ColumnName="SoCot" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="NhanViens">
+      <EntityTypeMapping TypeName="IsTypeOf(dbQLKhoModel.NhanVien)">
+        <MappingFragment StoreEntitySet="NhanViens">
+          <ScalarProperty Name="MaNV" ColumnName="MaNV" />
+          <ScalarProperty Name="TenNV" ColumnName="TenNV" />
+          <ScalarProperty Name="PB" ColumnName="PB" />
+          <ScalarProperty Name="CV" ColumnName="CV" />
+          <ScalarProperty Name="MT" ColumnName="MT" />
+          <ScalarProperty Name="MatKhau" ColumnName="MatKhau" />
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="NhomHangHoas">
+      <EntityTypeMapping TypeName="IsTypeOf(dbQLKhoModel.NhomHangHoa)">
+        <MappingFragment StoreEntitySet="NhomHangHoas">
+          <ScalarProperty Name="ID_NHH" ColumnName="ID_NHH" />
+          <ScalarProperty Name="TenNHH" ColumnName="TenNHH" />
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PhieuNhaps">
+      <EntityTypeMapping TypeName="IsTypeOf(dbQLKhoModel.PhieuNhap)">
+        <MappingFragment StoreEntitySet="PhieuNhaps">
+          <ScalarProperty Name="ID_PhieuNhap" ColumnName="ID_PhieuNhap" />
+          <ScalarProperty Name="ThoiGian" ColumnName="ThoiGian" />
+          <ScalarProperty Name="ID_NhanVien" ColumnName="ID_NhanVien" />
+          <ScalarProperty Name="Note" ColumnName="Note" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PhieuXuats">
+      <EntityTypeMapping TypeName="IsTypeOf(dbQLKhoModel.PhieuXuat)">
+        <MappingFragment StoreEntitySet="PhieuXuats">
+          <ScalarProperty Name="ID_PhieuXuat" ColumnName="ID_PhieuXuat" />
+          <ScalarProperty Name="ID_NhanVien" ColumnName="ID_NhanVien" />
+          <ScalarProperty Name="ThoiGian" ColumnName="ThoiGian" />
+          <ScalarProperty Name="Note" ColumnName="Note" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="VitriSuas">
+      <EntityTypeMapping TypeName="IsTypeOf(dbQLKhoModel.VitriSua)">
+        <MappingFragment StoreEntitySet="VitriSuas">
+          <ScalarProperty Name="ID_ViTri" ColumnName="ID_ViTri" />
+          <ScalarProperty Name="ID_NhaKho" ColumnName="ID_NhaKho" />
+          <ScalarProperty Name="Tang" ColumnName="Tang" />
+          <ScalarProperty Name="Hang" ColumnName="Hang" />
+          <ScalarProperty Name="Cot" ColumnName="Cot" />
+          <ScalarProperty Name="Note" ColumnName="Note" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
